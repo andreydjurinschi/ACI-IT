@@ -102,3 +102,84 @@ _________________
 
 1) принятие аргументов
 
+```bash
+source="$1"
+destination="${2:-$HOME/backups}"
+log="$destination/backup.log"
+```
+
+2) проверка если каталог существует, и если он был указан в качестве аргумента
+
+```bash
+if [ -z "$source" ]; then
+echo "catalog did not exist"
+exit 1
+fi
+
+if [ -d "$source" ]; then
+echo "catalog $source exists"
+else
+echo "unknown catalog"
+exit 2
+fi
+```
+
+3) проверка если указанный каталог существует, если нет - то он создастся
+
+```bash
+if [ -d "$destination" ]; then
+echo "backup catalog $destination exists"
+else
+echo "backup catalog did not exists"
+mkdir -p "$destination"
+fi
+```
+
+4) переменные для создания архива и создание архива 
+
+```bash
+file_name=$(basename "$source")
+saved_at=$(date '+%Y%m%d_%H%M%S')
+arc_name="backup_${file_name}_${saved_at}.tar.gz"
+path="$destination/$arc_name"
+
+tar -czf "$path" -C "$(dirname "$source")" "$file_name"
+```
+
+5) запись размера файла при успевшном создании
+
+```bash
+size=0
+
+if [ -f $path ]; then
+size=$(du -h "path")
+else
+size=0
+fi
+```
+
+6) запись в лог файл по туториалу
+
+```bash
+echo "$(date '+%Y-%m-%dT%H:%M:%S') src=\"$source\" destination=\"$destination\" archive=\"$arc_name\" size=$size stetus codew=$code" >> "$log"
+```
+
+7) характерный вывод зависащий от кода возврата послежней команды
+
+```bash
+if [ $code -eq 0 ]; then
+echo "backup succesfully created"
+else
+echo "backup failed"
+fi
+
+exit $code
+```
+
+> результаты
+
+![alt text](image-5.png)
+
+![alt text](image-6.png)
+
+![alt text](image-7.png)
