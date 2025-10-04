@@ -183,3 +183,52 @@ exit $code
 ![alt text](image-6.png)
 
 ![alt text](image-7.png)
+
+### Задание 3
+#### »Мониторинг дискового пространства»
+
+![alt text](image-9.png)
+
+______________________
+
+1) Принимаем аргументы (диск, порог заполения), второй аргумент не обязательный и по-умолчанию = 80
+
+```bash
+path="$1"
+full=${2:-80}
+
+if [ -z "$path" ]; then
+echo "you need to indicate path to disk"
+exit 1
+fi
+
+if [ ! -d "$path" ]; then
+echo "$path did not exists"
+exit 2
+fi
+```
+
+2) вытаскиваю процент использования диска блпгодаря утилите `df -h`, передавая результат в `awk` для обработки второй строки и 5 столбца, попутно убирая символ процента
+
+```bash
+usage=$(df -h "$path" | awk 'NR==2 {gsub("%","",$5); print $5}')
+```
+3) проверка + результат 
+
+```bash
+echo -e "\n" "path: $path"
+echo -e "\n" "time: $(date '+%Y/%m/%d')"
+echo -e "\n" "usage: $usage"
+
+if [ $usage -lt $full ]; then
+echo "$full > $usage; its ok"
+else
+echo "bad"
+fi
+```
+
+> результат
+
+![alt text](image-10.png)
+
+
