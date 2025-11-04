@@ -7,3 +7,7 @@
 ### lab_03 
 
 [link](/lab_03/README.md)
+
+### lab_04
+
+[link](/lab_04/README.md)
