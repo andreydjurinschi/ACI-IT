@@ -15,3 +15,7 @@
 ### lab_05
 
 [link](/lab_05/README.md)
+
+### lab_06
+
+[link](/lab_06/README.md)
