@@ -342,3 +342,5 @@ ec2_public_ip = "63.181.83.145"
 s3_bucket_name = "bucket-aci-it-super-dev"
 
 ```
+
+`terraform destroy` - удаляем все созданные терраформом ресурсы
