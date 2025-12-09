@@ -10,7 +10,7 @@ ____
 
 ```bash
   docker run -d \
-    --hostname PUPUPIPI \
+    --hostname 192.168.100.75 \
     -p 80:80 \
     -p 443:443 \
     -p 8022:22 \
